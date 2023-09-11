@@ -6,4 +6,8 @@ pub enum CryptoPalsError {
     CannotDecodeHex(String),
     #[error("The two buffers are different in size, cannot xor them")]
     DifferentSizedBuffers,
+    #[error("An error ocurred when decoding Base64 string")]
+    Base64DecodeError(#[from] base64::DecodeError),
+    #[error("Range is outside the bounds of the slice")]
+    RangeOutsideBounds
 }

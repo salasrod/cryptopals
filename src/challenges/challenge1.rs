@@ -23,6 +23,17 @@ pub fn base64_encode(bytes: &[u8]) -> String {
     general_purpose::STANDARD_NO_PAD.encode(bytes)
 }
 
+pub fn base64_decode(data: &str) -> Result<Vec<u8>, CryptoPalsError> {
+    use base64::{engine::general_purpose, Engine as _};
+    let data = data
+        .chars()
+        .filter(|c| !c.is_whitespace())
+        .collect::<String>(); // Remove Whitespace
+    let bytes = general_purpose::STANDARD.decode(data)?;
+
+    Ok(bytes)
+}
+
 pub fn convert_hex_to_base64(hextext: &str) -> Result<String, CryptoPalsError> {
     let bytes = hex_decode(hextext)?;
     Ok(base64_encode(&bytes))
