@@ -1,6 +1,5 @@
 use crate::errors::CryptoPalsError;
 
-
 pub fn get_hamming_distance(s1: &[u8], s2: &[u8]) -> Result<u32, CryptoPalsError> {
     if s1.len() != s2.len() {
         return Err(CryptoPalsError::DifferentSizedBuffers);
@@ -15,29 +14,27 @@ pub fn get_hamming_distance(s1: &[u8], s2: &[u8]) -> Result<u32, CryptoPalsError
 
 pub fn find_vinegere_keysize(data: &[u8]) -> Result<usize, CryptoPalsError> {
     let mut keysize = 0;
-    let mut edit_distance = f64::MAX;   
-    
+    let mut edit_distance = f64::MAX;
+
     for keysize_guess in 2..40 {
         let mut total_hamming_score = 0.0f64;
         let mut total_steps = 0;
-        
+
         for i in (keysize_guess..data.len()).step_by(keysize_guess) {
             if i + keysize_guess < data.len() {
-                let prev = &data[i-keysize_guess..i];
+                let prev = &data[i - keysize_guess..i];
                 let curr = &data[i..i + keysize_guess];
-                
+
                 let hamming_score = get_hamming_distance(prev, curr)?;
-                
-                
-                // Assume we are running 64 bits.   
+
+                // Assume we are running 64 bits.
                 let hamming_score_usize = usize::try_from(hamming_score).unwrap();
-                total_hamming_score += hamming_score_usize as f64/keysize_guess as f64;
+                total_hamming_score += hamming_score_usize as f64 / keysize_guess as f64;
                 total_steps += 1;
             }
         }
-        
-        
-        let normalized_edit_distance = total_hamming_score/total_steps as f64;
+
+        let normalized_edit_distance = total_hamming_score / total_steps as f64;
         if normalized_edit_distance < edit_distance {
             keysize = keysize_guess;
             edit_distance = normalized_edit_distance;

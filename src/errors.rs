@@ -9,5 +9,5 @@ pub enum CryptoPalsError {
     #[error("An error ocurred when decoding Base64 string")]
     Base64DecodeError(#[from] base64::DecodeError),
     #[error("Range is outside the bounds of the slice")]
-    RangeOutsideBounds
+    RangeOutsideBounds,
 }
