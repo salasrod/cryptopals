@@ -1,3 +1,4 @@
+use openssl::error::ErrorStack;
 use thiserror::Error;
 
 #[derive(Error, Debug)]
@@ -10,4 +11,6 @@ pub enum CryptoPalsError {
     Base64DecodeError(#[from] base64::DecodeError),
     #[error("Range is outside the bounds of the slice")]
     RangeOutsideBounds,
+    #[error("Error in the OpenSSL stack")]
+    OpenSSLStackError(#[from] ErrorStack),
 }

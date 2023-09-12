@@ -28,7 +28,8 @@ pub fn base64_decode(data: &str) -> Result<Vec<u8>, CryptoPalsError> {
     let data = data
         .chars()
         .filter(|c| !c.is_whitespace())
-        .collect::<String>(); // Remove Whitespace
+        .collect::<String>();
+
     let bytes = general_purpose::STANDARD.decode(data)?;
 
     Ok(bytes)

@@ -5,7 +5,7 @@ pub fn find_encoded_string(data: &[Vec<u8>]) -> String {
     let mut text = String::new();
 
     for line in data {
-        let (new_text, new_score) = brute_force_single_character_xor(line);
+        let (new_text, new_score, _) = brute_force_single_character_xor(line);
 
         if new_score > score {
             text = new_text;
